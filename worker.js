@@ -8,15 +8,15 @@ const language = 'ja';
 
 var sentMessege = (message) => {
 	let userId = JSON.parse(message).events[0].source.userId;
-	if (userId == "Uaacd580dab2c95d8d7b907c76ea625b7") {
+	if (userId == process.env.TOMOYA_LINE_ID) {
 		var userName = 'トモヤからのメッセージです。';
-	} else if (userId == 'U362a6c43831faaf200e8ef4daea3f3e6') {
+	} else if (userId == process.env.MAMA_LINE_ID) {
 		userName = "ママからのメッセージです。";
-	} else if (userId == 'Uf8133ed6ed6dc6b34d8646ba33de303f') {
+	} else if (userId == process.env.NANA_LINE_ID) {
 		userName = 'ななからのメッセージです。'
-	} else if (userId == 'Ub8e48bbd0b4dea8ea0f6984a8ea0bfa2') {
+	} else if (userId == process.env.IKUYA_LINE_ID) {
 		userName = 'いくやからのメッセージです。'
-	} else if (userId == 'U99a4a2253412238a0b510cacd34d39ff') {
+	} else if (userId == process.env.MAMA_LINE_ID) {
 		userName = 'みみからのメッセージです。'
 	};
 	let send_message = JSON.parse(message).events[0].message.text;
