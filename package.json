@@ -12,7 +12,8 @@
   "dependencies": {
     "dotenv": "^6.2.0",
     "google-home-notifier": "^1.2.0",
-    "http": "0.0.0"
+    "http": "0.0.0",
+    "redis": "^2.8.0"
   },
   "now": {
     "env": {
