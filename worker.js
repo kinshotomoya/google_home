@@ -54,4 +54,4 @@ setInterval(() => {
 		})
 		sentMessege(message);
 	})
-}, 3000);
+}, 7000);
