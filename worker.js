@@ -9,37 +9,29 @@ const google_home = require('google-home-notifier');
 const language = 'ja';
 
 var sentMessege = (message) => {
-	let userId = JSON.parse(message).events[0].source.userId;
-	if (userId == "Uaacd580dab2c95d8d7b907c76ea625b7") {
-		var userName = 'トモヤからのメッセージです。';
-	} else if (userId == "U362a6c43831faaf200e8ef4daea3f3e6") {
-		userName = "ママからのメッセージです。";
-	} else if (userId == "Uf8133ed6ed6dc6b34d8646ba33de303f") {
-		userName = 'ななからのメッセージです。'
-	} else if (userId == "Ub8e48bbd0b4dea8ea0f6984a8ea0bfa2") {
-		userName = 'いくやからのメッセージです。'
-	} else if (userId == "U99a4a2253412238a0b510cacd34d39ff") {
-		userName = 'みみからのメッセージです。'
-	} else {
-                userName = 'パパからのメッセージです。'
-        };
-	let send_message = JSON.parse(message).events[0].message.text;
-	postMessage(userId, send_message);
-	send_message = userName + send_message;
-	google_home.device('Google-Home', language);
-	google_home.notify(send_message, (res) => {
-		console.log(res);
+	let lineUserId = JSON.parse(message).events[0].source.userId;
+	connection.query(`select * from users where line_id = "${lineUserId}"`, (err, rows, results) => {
+		let user_name = rows[0].name
+		let user_id = rows[0].id
+		let firstSentence = `${user_name}からのメッセージです。`;
+		let send_message = JSON.parse(message).events[0].message.text;
+		postMessage(user_id, send_message);
+		let all_send_message = firstSentence + send_message;
+		google_home.device('Google-Home', language);
+		google_home.notify(all_send_message, (res) => {
+			console.log(res);
+		});
 	});
 };
 
-var postMessage = (userId, send_message) => {
+var postMessage = (user_id, send_message) => {
 	var now = new Date();
 	var now_date = now.toFormat('YYYY-MM-DD HH24:MI:SS')
 	console.log(now_date)
 
 	connection.connect();
 
-	connection.query(`insert into messsages(user_id, text, created_at, updated_at) values(${userId}, "${send_message}", "${now_date}", "${now_date}")`)
+	connection.query(`insert into messsages(user_id, text, created_at, updated_at) values(${user_id}, "${send_message}", "${now_date}", "${now_date}")`)
 
 	connection.end();
 }
