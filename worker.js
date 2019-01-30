@@ -1,6 +1,8 @@
 // queue(redis)からmessageを取得して、google_homeに送信する
-// loop doで、常に回すことで、redisからデータをworkerを設定できる。
+// loop doで、常に回すことで、redisからデータを取得する
 require('dotenv').config();
+require('date-utils');
+var connection = require('./mysql_config.js');
 const redis = require('redis');
 const client = redis.createClient();
 const google_home = require('google-home-notifier');
@@ -20,12 +22,25 @@ var sentMessege = (message) => {
 		userName = 'みみからのメッセージです。'
 	};
 	let send_message = JSON.parse(message).events[0].message.text;
+	postMessage(userId, send_message);
 	send_message = userName + send_message;
 	google_home.device('Google-Home', language);
 	google_home.notify(send_message, (res) => {
 		console.log(res);
 	});
 };
+
+var postMessage = (userId, send_message) => {
+	var now = new Date();
+	var now_date = now.toFormat('YYYY-MM-DD HH24:MI:SS')
+	console.log(now_date)
+
+	connection.connect();
+
+	connection.query(`insert into messsages(user_id, text, created_at, updated_at) values(${userId}, "${send_message}", "${now_date}", "${now_date}")`)
+
+	connection.end();
+}
 
 
 setInterval(() => {
