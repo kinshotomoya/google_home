@@ -10,17 +10,19 @@ const language = 'ja';
 
 var sentMessege = (message) => {
 	let userId = JSON.parse(message).events[0].source.userId;
-	if (userId == process.env.TOMOYA_LINE_ID) {
+	if (userId == "Uaacd580dab2c95d8d7b907c76ea625b7") {
 		var userName = 'トモヤからのメッセージです。';
-	} else if (userId == process.env.MAMA_LINE_ID) {
+	} else if (userId == "U362a6c43831faaf200e8ef4daea3f3e6") {
 		userName = "ママからのメッセージです。";
-	} else if (userId == process.env.NANA_LINE_ID) {
+	} else if (userId == "Uf8133ed6ed6dc6b34d8646ba33de303f") {
 		userName = 'ななからのメッセージです。'
-	} else if (userId == process.env.IKUYA_LINE_ID) {
+	} else if (userId == "Ub8e48bbd0b4dea8ea0f6984a8ea0bfa2") {
 		userName = 'いくやからのメッセージです。'
-	} else if (userId == process.env.MAMA_LINE_ID) {
+	} else if (userId == "U99a4a2253412238a0b510cacd34d39ff") {
 		userName = 'みみからのメッセージです。'
-	};
+	} else {
+                userName = 'パパからのメッセージです。'
+        };
 	let send_message = JSON.parse(message).events[0].message.text;
 	postMessage(userId, send_message);
 	send_message = userName + send_message;
