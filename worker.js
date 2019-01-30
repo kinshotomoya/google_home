@@ -28,9 +28,6 @@ var postMessage = (user_id, send_message) => {
 	var now = new Date();
 	var now_date = now.toFormat('YYYY-MM-DD HH24:MI:SS')
 	console.log(now_date)
-
-	connection.connect();
-
 	connection.query(`insert into messsages(user_id, text, created_at, updated_at) values(${user_id}, "${send_message}", "${now_date}", "${now_date}")`)
 
 	connection.end();
