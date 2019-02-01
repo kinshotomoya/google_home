@@ -13,6 +13,7 @@ var saveMessage = function(message) {
 
 server.on('request', (req, res) => {
     req.on('data', (message) => {
+        console.log(JSON.parse(message));
         saveMessage(message);
     })
 })

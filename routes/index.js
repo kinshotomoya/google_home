@@ -12,7 +12,7 @@ const language = 'ja';
 router.post('/line_webhook', (req, res, next) => {
     console.log('line_webhookです');
     // queueにmessageを積む
-    client.lpush('linedata', req.body);
+  client.lpush('linedata', JSON.stringify(req.body));
 });
 
 
