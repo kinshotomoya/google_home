@@ -1,10 +1,14 @@
 var express = require('express');
+const redis = require('redis');
+const client = redis.createClient();
 var router = express.Router();
 
 
 // google-home-botにtextを打つと、webhookでここで処理される
-router.get('/line_webhook', (req, res, next) => {
+router.post('/line_webhook', (req, res, next) => {
     console.log('line_webhookです');
+    // queueにmessageを積む
+    client.lpush('linedata', req.body);
 });
 
 
