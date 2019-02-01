@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var connection = require('./mysql_config.js');
+var connection = require('../mysql_config.js');
 const redis = require('redis');
 const client = redis.createClient();
 const google_home = require('google-home-notifier');
@@ -12,7 +12,7 @@ const language = 'ja';
 router.post('/line_webhook', (req, res, next) => {
     console.log('line_webhookです');
     // queueにmessageを積む
-    client.lpush('linedata', req.body);
+  client.lpush('linedata', JSON.stringify(req.body));
 });
 
 
